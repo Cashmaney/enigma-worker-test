@@ -33,6 +33,18 @@ const makeSelectRepos = () =>
     globalState => globalState.userData.repositories,
   );
 
+const makeSelectAddress = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.userData.ethereumAddress,
+  );
+
+const makeSelectStatus = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.userData.status,
+  );
+
 const makeSelectLocation = () =>
   createSelector(
     selectRouter,
@@ -45,5 +57,7 @@ export {
   makeSelectLoading,
   makeSelectError,
   makeSelectRepos,
+  makeSelectAddress,
+  makeSelectStatus,
   makeSelectLocation,
 };

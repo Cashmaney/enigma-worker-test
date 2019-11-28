@@ -15,7 +15,17 @@
  *    }
  */
 
-import { LOAD_REPOS, LOAD_REPOS_SUCCESS, LOAD_REPOS_ERROR } from './constants';
+import {
+  LOAD_REPOS,
+  LOAD_REPOS_SUCCESS,
+  LOAD_REPOS_ERROR,
+  LOAD_ADDRESS_SUCCESS,
+  LOAD_ADDRESS_ERROR,
+  LOAD_ADDRESS,
+  STOP_WORKER,
+  START_WORKER,
+  REGISTER_WORKER, LOAD_STATUS_SUCCESS, LOAD_STATUS, LOAD_STATUS_ERROR,
+} from './constants';
 
 /**
  * Load the repositories, this action starts the request saga
@@ -55,5 +65,116 @@ export function repoLoadingError(error) {
   return {
     type: LOAD_REPOS_ERROR,
     error,
+  };
+}
+
+/**
+ * Load ethereum address. this action starts the request saga
+ *
+ * @return {object} An action object with a type of LOAD_ADDRESS
+ */
+export function loadAddress() {
+  return {
+    type: LOAD_ADDRESS,
+  };
+}
+
+/**
+ * Dispatched when the repositories are loaded by the request saga
+ *
+ * @param  {array} address The ethereum address
+ *
+ * @return {object}      An action object with a type of LOAD_ADDRESS_SUCCESS passing the address
+ */
+export function addressLoaded(address) {
+  return {
+    type: LOAD_ADDRESS_SUCCESS,
+    address,
+  };
+}
+
+/**
+ * Dispatched when loading the repositories fails
+ *
+ * @param  {object} error The error
+ *
+ * @return {object}       An action object with a type of LOAD_ADDRESS_ERROR passing the error
+ */
+export function addressLoadingError(error) {
+  return {
+    type: LOAD_ADDRESS_ERROR,
+    error,
+  };
+}
+
+/**
+ * Load ethereum address. this action starts the request saga
+ *
+ * @return {object} An action object with a type of LOAD_ADDRESS
+ */
+export function loadStatus() {
+  return {
+    type: LOAD_STATUS,
+  };
+}
+
+/**
+ * Dispatched when the repositories are loaded by the request saga
+ *
+ * @param  {array} status The worker status
+ *
+ * @return {object}      An action object with a type of LOAD_ADDRESS_SUCCESS passing the address
+ */
+export function statusLoaded(status) {
+  return {
+    type: LOAD_STATUS_SUCCESS,
+    status,
+  };
+}
+
+/**
+ * Dispatched when loading the repositories fails
+ *
+ * @param  {object} error The error
+ *
+ * @return {object}       An action object with a type of LOAD_ADDRESS_ERROR passing the error
+ */
+export function statusLoadingError(error) {
+  return {
+    type: LOAD_STATUS_ERROR,
+    error,
+  };
+}
+
+/**
+ * Load ethereum address. this action starts the request saga
+ *
+ * @return {object} An action object with a type of LOAD_ADDRESS
+ */
+export function stopWorker() {
+  return {
+    type: STOP_WORKER,
+  };
+}
+
+/**
+ * Load ethereum address. this action starts the request saga
+ *
+ * @return {object} An action object with a type of LOAD_ADDRESS
+ */
+export function startWorker() {
+  return {
+    type: START_WORKER,
+  };
+}
+
+/**
+ * Load ethereum address. this action starts the request saga
+ *
+ * @return {object} An action object with a type of LOAD_ADDRESS
+ */
+export function registerWorker() {
+  return {
+    type: REGISTER_WORKER,
   };
 }

@@ -2,12 +2,18 @@
  * Gets the repositories of the user from Github
  */
 
-import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { LOAD_REPOS } from 'containers/App/constants';
-import { reposLoaded, repoLoadingError } from 'containers/App/actions';
+import { all, call, put, select, takeEvery, take } from 'redux-saga/effects';
+import { LOAD_REPOS, LOAD_ADDRESS, STOP_WORKER, START_WORKER, REGISTER_WORKER, LOAD_STATUS } from 'containers/App/constants';
+import {
+  reposLoaded,
+  repoLoadingError,
+  addressLoaded,
+  addressLoadingError,
+} from 'containers/App/actions';
 
 import request from 'utils/request';
 import { makeSelectUsername } from 'containers/HomePage/selectors';
+import { statusLoaded, statusLoadingError } from '../App/actions';
 
 /**
  * Github repos request/response handler
@@ -27,12 +33,84 @@ export function* getRepos() {
 }
 
 /**
+ * Github repos request/response handler
+ */
+export function* getEtherAddress() {
+  const requestURL = `http://localhost:9876/ethereum/address`;
+  console.log(`here2`)
+  try {
+    // Call our request helper (see 'utils/request')
+    const addr = yield call(request, requestURL);
+    yield put(addressLoaded(addr));
+  } catch (err) {
+    yield put(addressLoadingError(err));
+  }
+}
+
+/**
+ * Github repos request/response handler
+ */
+export function* getStatus() {
+  const requestURL = `http://localhost:9876/worker/status`;
+  console.log(`here`)
+  try {
+    // Call our request helper (see 'utils/request')
+    const addr = yield call(request, requestURL);
+    console.log(`addressloaded: ${addr}`)
+    yield put(statusLoaded(addr));
+  } catch (err) {
+    yield put(statusLoadingError(err));
+  }
+}
+
+/**
+ * Github repos request/response handler
+ */
+export function* stopWorker() {
+  const requestURL = `http://localhost:9876/worker/stop`;
+
+  try {
+    // Call our request helper (see 'utils/request')
+    yield call(request, requestURL, { method: 'POST' });
+  } catch (err) {
+    yield put(addressLoadingError(err));
+  }
+}
+
+/**
+ * Github repos request/response handler
+ */
+export function* startWorker() {
+  const requestURL = `http://localhost:9876/worker/start`;
+
+  try {
+    // Call our request helper (see 'utils/request')
+    yield call(request, requestURL, { method: 'POST' });
+  } catch (err) {
+    yield put(addressLoadingError(err));
+  }
+}
+
+export function* register() {
+  const requestURL = `http://localhost:9876/worker/register`;
+  try {
+    // Call our request helper (see 'utils/request')
+    yield call(request, requestURL, { method: 'POST' });
+  } catch (err) {
+    yield put(addressLoadingError(err));
+  }
+}
+
+/**
  * Root saga manages watcher lifecycle
  */
 export default function* githubData() {
-  // Watches for LOAD_REPOS actions and calls getRepos when one comes in.
-  // By using `takeLatest` only the result of the latest API call is applied.
-  // It returns task descriptor (just like fork) so we can continue execution
-  // It will be cancelled automatically on component unmount
-  yield takeLatest(LOAD_REPOS, getRepos);
+  yield all([
+    yield takeEvery(LOAD_ADDRESS, getEtherAddress),
+    yield takeEvery(LOAD_REPOS, getRepos),
+    yield takeEvery(REGISTER_WORKER, register),
+    yield takeEvery(START_WORKER, startWorker),
+    yield takeEvery(STOP_WORKER, stopWorker),
+    yield takeEvery(LOAD_STATUS, getStatus),
+  ]);
 }

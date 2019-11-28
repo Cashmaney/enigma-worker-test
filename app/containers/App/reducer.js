@@ -8,7 +8,14 @@
  */
 
 import produce from 'immer';
-import { LOAD_REPOS_SUCCESS, LOAD_REPOS, LOAD_REPOS_ERROR } from './constants';
+import {
+  LOAD_REPOS_SUCCESS,
+  LOAD_REPOS,
+  LOAD_REPOS_ERROR,
+  LOAD_ADDRESS,
+  LOAD_ADDRESS_ERROR,
+  LOAD_ADDRESS_SUCCESS, LOAD_STATUS, LOAD_STATUS_SUCCESS, LOAD_STATUS_ERROR,
+} from './constants';
 
 // The initial state of the App
 export const initialState = {
@@ -17,6 +24,8 @@ export const initialState = {
   currentUser: false,
   userData: {
     repositories: false,
+    status: 'OFFLINE',
+    ethereumAddress: false,
   },
 };
 
@@ -35,8 +44,37 @@ const appReducer = (state = initialState, action) =>
         draft.loading = false;
         draft.currentUser = action.username;
         break;
-
       case LOAD_REPOS_ERROR:
+        draft.error = action.error;
+        draft.loading = false;
+        break;
+      case LOAD_ADDRESS:
+        draft.loading = true;
+        draft.error = false;
+        draft.userData.ethereumAddress = false;
+        break;
+
+      case LOAD_ADDRESS_SUCCESS:
+        draft.userData.ethereumAddress = action.address;
+        draft.loading = false;
+        break;
+
+      case LOAD_ADDRESS_ERROR:
+        draft.error = action.error;
+        draft.loading = false;
+        break;
+
+      case LOAD_STATUS:
+        draft.loading = true;
+        draft.error = false;
+        break;
+
+      case LOAD_STATUS_SUCCESS:
+        draft.userData.status = action.status;
+        draft.loading = false;
+        break;
+
+      case LOAD_STATUS_ERROR:
         draft.error = action.error;
         draft.loading = false;
         break;

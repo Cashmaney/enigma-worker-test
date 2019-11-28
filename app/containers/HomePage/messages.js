@@ -8,25 +8,32 @@ import { defineMessages } from 'react-intl';
 export const scope = 'boilerplate.containers.HomePage';
 
 export default defineMessages({
-  startProjectHeader: {
-    id: `${scope}.start_project.header`,
-    defaultMessage: 'Start your next react project in seconds',
+  mainPageHeader: {
+    id: `${scope}.main_page.header`,
+    defaultMessage: 'Enigma Secret Node Management Page',
   },
-  startProjectMessage: {
-    id: `${scope}.start_project.message`,
-    defaultMessage:
-      'A highly scalable, offline-first foundation with the best DX and a focus on performance and best practices',
+  yourEthAddress: {
+    id: `${scope}.main_page.address`,
+    defaultMessage: 'This is YOUR ethereum address:',
   },
-  trymeHeader: {
-    id: `${scope}.tryme.header`,
-    defaultMessage: 'Try me!',
+  status: {
+    id: `${scope}.main_page.status`,
+    defaultMessage: 'Current worker status:',
   },
-  trymeMessage: {
-    id: `${scope}.tryme.message`,
-    defaultMessage: 'Show Github repositories by',
+  balance: {
+    id: `${scope}.main_page.balance`,
+    defaultMessage: 'Balance is:',
   },
-  trymeAtPrefix: {
-    id: `${scope}.tryme.atPrefix`,
-    defaultMessage: '@',
+  startWorker: {
+    id: `${scope}.main_page.start`,
+    defaultMessage: 'Start worker',
+  },
+  stopWorker: {
+    id: `${scope}.main_page.stop`,
+    defaultMessage: 'Stop worker',
+  },
+  register: {
+    id: `${scope}.main_page.register`,
+    defaultMessage: 'Register',
   },
 });

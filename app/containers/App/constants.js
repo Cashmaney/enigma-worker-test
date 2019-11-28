@@ -12,3 +12,15 @@
 export const LOAD_REPOS = 'boilerplate/App/LOAD_REPOS';
 export const LOAD_REPOS_SUCCESS = 'boilerplate/App/LOAD_REPOS_SUCCESS';
 export const LOAD_REPOS_ERROR = 'boilerplate/App/LOAD_REPOS_ERROR';
+
+export const LOAD_ADDRESS = 'boilerplate/App/LOAD_ADDRESS';
+export const LOAD_ADDRESS_SUCCESS = 'boilerplate/App/LOAD_ADDRESS_SUCCESS';
+export const LOAD_ADDRESS_ERROR = 'boilerplate/App/LOAD_ADDRESS_ERROR';
+
+export const LOAD_STATUS = 'boilerplate/App/LOAD_STATUS';
+export const LOAD_STATUS_SUCCESS = 'boilerplate/App/LOAD_STATUS_SUCCESS';
+export const LOAD_STATUS_ERROR = 'boilerplate/App/LOAD_STATUS_ERROR';
+
+export const STOP_WORKER = 'boilerplate/App/STOP_WORKER';
+export const START_WORKER = 'boilerplate/App/START_WORKER';
+export const REGISTER_WORKER = 'boilerplate/App/REGISTER_WORKER';

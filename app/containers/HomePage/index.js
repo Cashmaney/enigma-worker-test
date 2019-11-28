@@ -18,8 +18,11 @@ import {
   makeSelectRepos,
   makeSelectLoading,
   makeSelectError,
+  makeSelectStatus,
+  makeSelectAddress,
 } from 'containers/App/selectors';
 import H2 from 'components/H2';
+import H3 from 'components/H3';
 import ReposList from 'components/ReposList';
 import AtPrefix from './AtPrefix';
 import CenteredSection from './CenteredSection';
@@ -27,7 +30,8 @@ import Form from './Form';
 import Input from './Input';
 import Section from './Section';
 import messages from './messages';
-import { loadRepos } from '../App/actions';
+import Button from 'components/Button';
+import { loadRepos, loadAddress, startWorker, stopWorker, registerWorker, loadStatus } from '../App/actions';
 import { changeUsername } from './actions';
 import { makeSelectUsername } from './selectors';
 import reducer from './reducer';
@@ -42,20 +46,21 @@ export function HomePage({
   repos,
   onSubmitForm,
   onChangeUsername,
+  address,
+  status,
+  onLoad,
+  startWorker,
+  stopWorker,
+  registerWorker,
 }) {
   useInjectReducer({ key, reducer });
   useInjectSaga({ key, saga });
 
   useEffect(() => {
     // When initial state username is not null, submit the form to load repos
+    onLoad();
     if (username && username.trim().length > 0) onSubmitForm();
   }, []);
-
-  const reposListProps = {
-    loading,
-    error,
-    repos,
-  };
 
   return (
     <article>
@@ -63,39 +68,33 @@ export function HomePage({
         <title>Home Page</title>
         <meta
           name="description"
-          content="A React.js Boilerplate application homepage"
+          content="Enigma Secret Node Management App"
         />
       </Helmet>
       <div>
         <CenteredSection>
           <H2>
-            <FormattedMessage {...messages.startProjectHeader} />
+            <FormattedMessage {...messages.mainPageHeader} />
           </H2>
+          <H2>
+            <FormattedMessage {...messages.yourEthAddress} /> {address || 'N/A'}
+          </H2>
+          <H3>
+            <FormattedMessage {...messages.balance} /> 0 ETH
+          </H3>
           <p>
-            <FormattedMessage {...messages.startProjectMessage} />
+            <FormattedMessage {...messages.status} /> {status}
           </p>
         </CenteredSection>
-        <Section>
-          <H2>
-            <FormattedMessage {...messages.trymeHeader} />
-          </H2>
-          <Form onSubmit={onSubmitForm}>
-            <label htmlFor="username">
-              <FormattedMessage {...messages.trymeMessage} />
-              <AtPrefix>
-                <FormattedMessage {...messages.trymeAtPrefix} />
-              </AtPrefix>
-              <Input
-                id="username"
-                type="text"
-                placeholder="mxstbr"
-                value={username}
-                onChange={onChangeUsername}
-              />
-            </label>
-          </Form>
-          <ReposList {...reposListProps} />
-        </Section>
+        <Button onClick={startWorker}>
+          <FormattedMessage {...messages.startWorker} />
+        </Button>
+        <Button onClick={stopWorker}>
+          <FormattedMessage {...messages.stopWorker} />
+        </Button>
+        <Button onClick={registerWorker}>
+          <FormattedMessage {...messages.register} />
+        </Button>
       </div>
     </article>
   );
@@ -108,6 +107,12 @@ HomePage.propTypes = {
   onSubmitForm: PropTypes.func,
   username: PropTypes.string,
   onChangeUsername: PropTypes.func,
+  onLoad: PropTypes.func,
+  status: PropTypes.string,
+  address: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  stopWorker: PropTypes.func,
+  startWorker: PropTypes.func,
+  registerWorker: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -115,14 +120,30 @@ const mapStateToProps = createStructuredSelector({
   username: makeSelectUsername(),
   loading: makeSelectLoading(),
   error: makeSelectError(),
+  address: makeSelectAddress(),
+  status: makeSelectStatus(),
+  // status: makeSelectStatus(),
 });
 
 export function mapDispatchToProps(dispatch) {
   return {
+    onLoad: () => {
+      dispatch(loadAddress());
+      dispatch(loadStatus());
+    },
     onChangeUsername: evt => dispatch(changeUsername(evt.target.value)),
     onSubmitForm: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(loadRepos());
+    },
+    startWorker: () => {
+      dispatch(startWorker());
+    },
+    stopWorker: () => {
+      dispatch(stopWorker());
+    },
+    registerWorker: () => {
+      dispatch(registerWorker());
     },
   };
 }
