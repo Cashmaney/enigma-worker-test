@@ -51,6 +51,12 @@ const makeSelectLocation = () =>
     routerState => routerState.location,
   );
 
+const makeSelectBalance = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.userData.balance,
+  );
+
 export {
   selectGlobal,
   makeSelectCurrentUser,
@@ -60,4 +66,5 @@ export {
   makeSelectAddress,
   makeSelectStatus,
   makeSelectLocation,
+  makeSelectBalance,
 };

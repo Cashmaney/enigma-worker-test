@@ -14,15 +14,15 @@ export default defineMessages({
   },
   yourEthAddress: {
     id: `${scope}.main_page.address`,
-    defaultMessage: 'This is YOUR ethereum address:',
+    defaultMessage: 'Ethereum Address',
   },
   status: {
     id: `${scope}.main_page.status`,
-    defaultMessage: 'Current worker status:',
+    defaultMessage: 'Current worker status',
   },
   balance: {
     id: `${scope}.main_page.balance`,
-    defaultMessage: 'Balance is:',
+    defaultMessage: 'Balance',
   },
   startWorker: {
     id: `${scope}.main_page.start`,

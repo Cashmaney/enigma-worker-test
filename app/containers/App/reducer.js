@@ -9,8 +9,8 @@
 
 import produce from 'immer';
 import {
-  LOAD_REPOS_SUCCESS,
-  LOAD_REPOS,
+  LOAD_BALANCE_SUCCESS,
+  LOAD_BALANCE,
   LOAD_REPOS_ERROR,
   LOAD_ADDRESS,
   LOAD_ADDRESS_ERROR,
@@ -26,6 +26,7 @@ export const initialState = {
     repositories: false,
     status: 'OFFLINE',
     ethereumAddress: false,
+    balance: '0',
   },
 };
 
@@ -33,16 +34,8 @@ export const initialState = {
 const appReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
-      case LOAD_REPOS:
-        draft.loading = true;
-        draft.error = false;
-        draft.userData.repositories = false;
-        break;
-
-      case LOAD_REPOS_SUCCESS:
-        draft.userData.repositories = action.repos;
-        draft.loading = false;
-        draft.currentUser = action.username;
+      case LOAD_BALANCE_SUCCESS:
+        draft.userData.balance = action.balance;
         break;
       case LOAD_REPOS_ERROR:
         draft.error = action.error;
